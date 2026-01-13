@@ -21,6 +21,7 @@ export default function AdminPage() {
     const [uploadStatus, setUploadStatus] = useState<"uploading" | "completed" | "error">("uploading");
     const [results, setResults] = useState<UploadResult[]>([]);
     const [editingCharacter, setEditingCharacter] = useState<any | null>(null);
+    const [isSyncing, setIsSyncing] = useState(false);
 
     const handleCharacterCreated = () => {
         setRefreshKey((prev) => prev + 1);
@@ -58,6 +59,35 @@ export default function AdminPage() {
         }
     };
 
+    const handleDbSync = async () => {
+        if (!confirm("¿Estás seguro de que quieres sincronizar la base de datos? Esto aplicará cambios estructurales.")) return;
+
+        setIsModalOpen(true);
+        setUploadStatus("uploading"); // Reusing for "syncing"
+        setResults([]);
+
+        try {
+            const res = await fetch("/api/characters/db-sync", {
+                method: "POST",
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setResults([{ name: "Base de Datos", status: "success" }]);
+                setUploadStatus("completed");
+                handleCharacterCreated();
+            } else {
+                const data = await res.json();
+                setResults([{ name: "Base de Datos", status: "error", error: data.details || "Error desconocido" }]);
+                setUploadStatus("error");
+            }
+        } catch (err: any) {
+            console.error(err);
+            setResults([{ name: "Base de Datos", status: "error", error: err.message }]);
+            setUploadStatus("error");
+        }
+    };
+
     const successCount = results.filter((r) => r.status === "success").length;
     const errorCount = results.filter((r) => r.status === "error").length;
 
@@ -73,6 +103,14 @@ export default function AdminPage() {
                         <h1 className="text-3xl font-extrabold text-gray-800">Panel de Admin</h1>
                     </div>
                 </div>
+                <button
+                    onClick={handleDbSync}
+                    className="flex items-center gap-2 px-6 py-2 bg-white text-purple-600 border border-purple-200 rounded-full hover:bg-purple-50 transition-all font-semibold shadow-sm overflow-hidden relative group"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <ShieldCheck className="w-5 h-5" />
+                    Sincronizar DB
+                </button>
             </div>
 
             <div className="space-y-12">
