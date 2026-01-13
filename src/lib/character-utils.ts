@@ -80,6 +80,16 @@ export async function processCharacter(name: string, imageUrl: string, forbidden
     return character;
 }
 
+const CONTENT_TYPE_TO_EXT: Record<string, string> = {
+    "image/jpeg": "jpg",
+    "image/jpg": "jpg",
+    "image/png": "png",
+    "image/gif": "gif",
+    "image/webp": "webp",
+    "image/svg+xml": "svg",
+    "image/avif": "avif",
+};
+
 export async function downloadImage(url: string): Promise<{ buffer: Buffer; contentType: string; fileName: string }> {
     const res = await fetch(url);
     if (!res.ok) {
@@ -88,7 +98,24 @@ export async function downloadImage(url: string): Promise<{ buffer: Buffer; cont
     const arrayBuffer = await res.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     const contentType = res.headers.get("content-type") || "application/octet-stream";
-    const fileName = new URL(url).pathname.split("/").pop() || "image.jpg";
+
+    // Determine file extension
+    let fileExtension = "";
+
+    // Try to get extension from content-type first as it's more reliable for weird URLs
+    if (CONTENT_TYPE_TO_EXT[contentType]) {
+        fileExtension = CONTENT_TYPE_TO_EXT[contentType];
+    } else {
+        // Fallback to URL path
+        const pathExtension = new URL(url).pathname.split(".").pop();
+        if (pathExtension && pathExtension.length <= 4 && /^[a-zA-Z0-9]+$/.test(pathExtension)) {
+            fileExtension = pathExtension;
+        } else {
+            fileExtension = "jpg"; // Default
+        }
+    }
+
+    const fileName = `${uuidv4()}.${fileExtension}`;
 
     return { buffer, contentType, fileName };
 }

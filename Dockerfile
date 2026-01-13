@@ -35,7 +35,7 @@ COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache and uploads
 RUN mkdir -p public/uploads
-RUN chown -R nextjs:nodejs public
+RUN chown -R nextjs:nodejs /app/public
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
