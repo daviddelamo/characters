@@ -1,12 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 
 export async function GET(
-    request: Request,
-    { params }: { params: { path: string[] } }
+    request: NextRequest,
+    { params }: { params: Promise<{ path: string[] }> }
 ) {
-    const filePath = params.path.join("/");
+    const { path: pathSegments } = await params;
+    const filePath = pathSegments.join("/");
     const uploadsDir = path.join(process.cwd(), "public", "uploads");
     const fullPath = path.join(uploadsDir, filePath);
 
