@@ -69,8 +69,8 @@ export default function CharacterList({
             ) : (
                 characters.map((char) => (
                     <div key={char.id} className="glass-card overflow-hidden group">
-                        <div className="h-48 relative">
-                            <img src={char.imageUrl} alt={char.name} className="w-full h-full object-fill" />
+                        <div className="h-48 relative bg-gray-50/50">
+                            <img src={char.imageUrl} alt={char.name} className="w-full h-full object-contain" />
                             <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
                                     onClick={() => onEdit(char)}

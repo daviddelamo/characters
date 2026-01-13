@@ -103,11 +103,11 @@ export default function GameSession() {
     return (
         <div className="w-full max-w-lg landscape:max-w-4xl mx-auto h-[calc(100vh-2rem)] flex flex-col gap-4 animate-in slide-in-from-bottom-10 duration-500 overflow-hidden">
             <div className="glass-card overflow-hidden shadow-2xl flex-1 flex flex-col landscape:flex-row min-h-0">
-                <div className="h-80 landscape:h-full landscape:w-1/2 relative shrink-0">
+                <div className="h-80 landscape:h-full landscape:w-1/2 relative shrink-0 bg-white/5">
                     <img
                         src={currentCharacter?.imageUrl}
                         alt="Personaje"
-                        className="w-full h-full object-fill"
+                        className="w-full h-full object-contain"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6">
                         <h3 className="text-3xl landscape:text-5xl font-black text-white text-center drop-shadow-lg uppercase tracking-tighter">

@@ -192,8 +192,8 @@ export default function CharacterForm({
                                 }`}
                         >
                             {imagePreview ? (
-                                <div className="relative w-full h-full group/preview">
-                                    <img src={imagePreview} alt="Preview" className="w-full h-full object-fill" />
+                                <div className="relative w-full h-full group/preview bg-gray-50/50">
+                                    <img src={imagePreview} alt="Preview" className="w-full h-full object-contain" />
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/preview:opacity-100 transition-opacity flex items-center justify-center">
                                         <p className="text-white font-medium flex items-center gap-2">
                                             <ImageIcon className="w-5 h-5" />

@@ -31,7 +31,7 @@
     },
     {
         "name": "Vaiana (Moana)",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Moana_Disney_Parks.jpg",
+        "image": "https://www.goodvinilos.com/139118/adhesivo-de-pared-vaiana-disney.jpg",
         "forbiddenWords": [
             "Mar",
             "Barco",
@@ -41,7 +41,7 @@
     },
     {
         "name": "Rapunzel",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rapunzel_-_Magic_On_Parade_(11730485755).jpg",
+        "image": "https://kh.wiki.gallery/images/thumb/0/05/Rapunzel_KHIII.png/1200px-Rapunzel_KHIII.png",
         "forbiddenWords": [
             "Pelo",
             "Largo",
@@ -51,7 +51,7 @@
     },
     {
         "name": "Cenicienta",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cinderella_-_Magic_On_Parade_(11729870755).jpg",
+        "image": "https://www.cuentosinfantiles.net/images/la-cenicienta.png",
         "forbiddenWords": [
             "Zapato",
             "Cristal",
@@ -61,7 +61,7 @@
     },
     {
         "name": "Blancanieves",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Snow_white_1937_trailer_screenshot_(2).jpg",
+        "image": "https://static.wikia.nocookie.net/wiki-doblaje-espana/images/3/32/Blancanieves.webp/revision/latest?cb=20220315204441&path-prefix=es",
         "forbiddenWords": [
             "Manzana",
             "Enanitos",
@@ -71,7 +71,7 @@
     },
     {
         "name": "Bella",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Disneyland_2012-06-30_Belle.jpg",
+        "image": "https://static.wikia.nocookie.net/heroe/images/d/d0/Bella_DP_2024_render.png/revision/latest/thumbnail/width/360/height/360?cb=20250402090117&path-prefix=es",
         "forbiddenWords": [
             "Bestia",
             "Rosa",
@@ -81,7 +81,7 @@
     },
     {
         "name": "Jasmine",
-        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Princess_Jasmine_Disney's_California_Adventure_2011.jpg",
+        "image": "https://static.wikia.nocookie.net/disney/images/c/cd/Profile_-_Jasmine.jpeg/revision/latest/thumbnail/width/360/height/360?cb=20190312021628",
         "forbiddenWords": [
             "Aladdín",
             "Alfombra",
@@ -121,7 +121,7 @@
     },
     {
         "name": "Spirit",
-        "image": "https://upload.wikimedia.org/wikipedia/en/7/77/Spirit_Stallion_of_the_Cimarron_poster.jpg",
+        "image": "https://filasiete.com/wp-content/uploads/2020/07/spirit.jpg",
         "forbiddenWords": [
             "Caballo",
             "Lucky",
@@ -137,16 +137,6 @@
             "Rosa",
             "Corona",
             "Castillo"
-        ]
-    },
-    {
-        "name": "Bowser",
-        "image": "https://upload.wikimedia.org/wikipedia/en/9/92/Bowser_Stock_Art_2021.png",
-        "forbiddenWords": [
-            "Tortuga",
-            "Malo",
-            "Fuego",
-            "Mario"
         ]
     },
     {
@@ -171,7 +161,7 @@
     },
     {
         "name": "Callum",
-        "image": "https://static.wikia.nocookie.net/dragonprince/images/d/d4/Callum_concept_art.jpg",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/d/db/Callum1.png/revision/latest?cb=20200916004025&path-prefix=es",
         "forbiddenWords": [
             "Príncipe",
             "Magia",
@@ -181,7 +171,7 @@
     },
     {
         "name": "Rayla",
-        "image": "https://static.wikia.nocookie.net/dragonprince/images/a/a2/Rayla_Standard_Outfit_S1-3.png",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/0/09/Rayla_Official.png/revision/latest?cb=20180916011716",
         "forbiddenWords": [
             "Elfa",
             "Cuernos",
@@ -191,7 +181,7 @@
     },
     {
         "name": "Ezran",
-        "image": "https://static.wikia.nocookie.net/dragonprince/images/6/62/Ezran_S1-3.png",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/2/25/Ezran_Official.png/revision/latest?cb=20180916011716",
         "forbiddenWords": [
             "Rey",
             "Animales",
@@ -201,7 +191,7 @@
     },
     {
         "name": "Zym (Azymondias)",
-        "image": "https://static.wikia.nocookie.net/dragonprince/images/b/b3/Azymondias_S3.png",
+        "image": "https://ih1.redbubble.net/image.1503477747.5313/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg",
         "forbiddenWords": [
             "Dragón",
             "Bebé",
@@ -211,7 +201,7 @@
     },
     {
         "name": "Viren",
-        "image": "https://static.wikia.nocookie.net/dragonprince/images/b/bf/Viren_S1-3.png",
+        "image": "https://upload.wikimedia.org/wikipedia/en/0/00/Viren_%28The_Dragon_Prince%29.png",
         "forbiddenWords": [
             "Malo",
             "Bastón",
@@ -221,7 +211,7 @@
     },
     {
         "name": "Claudia",
-        "image": "https://static.wikia.nocookie.net/dragonprince/images/3/36/Claudia_S1-3.png",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/3/34/Claudia.png/revision/latest?cb=20221217164102&path-prefix=es",
         "forbiddenWords": [
             "Pelo negro",
             "Magia oscura",
@@ -231,7 +221,7 @@
     },
     {
         "name": "Soren",
-        "image": "https://static.wikia.nocookie.net/dragonprince/images/7/73/Soren_S1-3.png",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/3/3d/Soren_Official.png/revision/latest?cb=20180916011717",
         "forbiddenWords": [
             "Rubio",
             "Guardia",
@@ -241,7 +231,7 @@
     },
     {
         "name": "Rumi (K-Pop Demon Hunters)",
-        "image": "https://static.wikia.nocookie.net/sony-pictures-animation/images/5/5e/Rumi.jpg",
+        "image": "https://static.wikia.nocookie.net/theunitedorganizationtoonsheroes/images/1/1e/Rumi_Portrait.webp/revision/latest/scale-to-width-down/380?cb=20250715155011",
         "forbiddenWords": [
             "Cantante",
             "Líder",
@@ -251,7 +241,7 @@
     },
     {
         "name": "Mira (K-Pop Demon Hunters)",
-        "image": "https://static.wikia.nocookie.net/sony-pictures-animation/images/2/28/Mira.jpg",
+        "image": "https://static.wikia.nocookie.net/kpop-demon-hunters/images/9/90/Mira_Portrait.png/revision/latest/scale-to-width-down/1200?cb=20250725045110",
         "forbiddenWords": [
             "Huntrix",
             "Pelo azul",
@@ -261,7 +251,7 @@
     },
     {
         "name": "Zoey (K-Pop Demon Hunters)",
-        "image": "https://static.wikia.nocookie.net/sony-pictures-animation/images/0/09/Zoey.jpg",
+        "image": "https://static.wikia.nocookie.net/kpop-demon-hunters/images/9/98/Zoey_Portrait.png/revision/latest/scale-to-width-down/1200?cb=20250725045053",
         "forbiddenWords": [
             "Espadas",
             "Rosa",
