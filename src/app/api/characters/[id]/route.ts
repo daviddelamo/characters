@@ -4,6 +4,48 @@ import { characters } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { s3Client, S3_BUCKET_NAME } from "@/lib/s3";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { saveImage, processCharacter } from "@/lib/character-utils";
+
+export async function PATCH(
+    req: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const { id } = await params;
+        const formData = await req.formData();
+        const name = formData.get("name") as string;
+        const forbiddenWordsInput = formData.get("forbiddenWords") as string;
+        const imageFile = formData.get("image") as File | null;
+
+        // 1. Get existing character to check for current image
+        const existingCharacter = await db.query.characters.findFirst({
+            where: eq(characters.id, id),
+        });
+
+        if (!existingCharacter) {
+            return NextResponse.json({ error: "Character not found" }, { status: 404 });
+        }
+
+        let imageUrl = existingCharacter.imageUrl;
+
+        // 2. If a new image is uploaded, save it and optionally delete the old one
+        if (imageFile && imageFile.size > 0) {
+            const buffer = Buffer.from(await imageFile.arrayBuffer());
+            imageUrl = await saveImage(buffer, imageFile.name, imageFile.type);
+
+            // Note: We could delete the old image here, but it's safer to keep for now or implement as a cleanup task
+        }
+
+        // 3. Update character
+        const words = forbiddenWordsInput ? JSON.parse(forbiddenWordsInput) as string[] : undefined;
+        const updatedCharacter = await processCharacter(name || existingCharacter.name, imageUrl, words, id);
+
+        return NextResponse.json(updatedCharacter);
+    } catch (error) {
+        console.error("Error updating character:", error);
+        return NextResponse.json({ error: "Failed to update character" }, { status: 500 });
+    }
+}
 
 export async function DELETE(
     req: NextRequest,

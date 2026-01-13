@@ -1,0 +1,352 @@
+[
+    {
+        "name": "Elsa",
+        "image": "https://upload.wikimedia.org/wikipedia/en/5/5e/Elsa_from_Disney%27s_Frozen.png",
+        "forbiddenWords": [
+            "Hielo",
+            "Nieve",
+            "Frozen",
+            "Anna"
+        ]
+    },
+    {
+        "name": "Anna",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/8/8a/Anna_Frozen.png/194px-Anna_Frozen.png",
+        "forbiddenWords": [
+            "Hermana",
+            "Elsa",
+            "Trenzas",
+            "Arendelle"
+        ]
+    },
+    {
+        "name": "Olaf",
+        "image": "https://upload.wikimedia.org/wikipedia/en/6/6d/Olaf_from_Disney%27s_Frozen.png",
+        "forbiddenWords": [
+            "Muñeco",
+            "Nieve",
+            "Zanahoria",
+            "Abrazos"
+        ]
+    },
+    {
+        "name": "Vaiana (Moana)",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Moana_Disney_Parks.jpg",
+        "forbiddenWords": [
+            "Mar",
+            "Barco",
+            "Maui",
+            "Isla"
+        ]
+    },
+    {
+        "name": "Rapunzel",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rapunzel_-_Magic_On_Parade_(11730485755).jpg",
+        "forbiddenWords": [
+            "Pelo",
+            "Largo",
+            "Torre",
+            "Sartén"
+        ]
+    },
+    {
+        "name": "Cenicienta",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cinderella_-_Magic_On_Parade_(11729870755).jpg",
+        "forbiddenWords": [
+            "Zapato",
+            "Cristal",
+            "Príncipe",
+            "Calabaza"
+        ]
+    },
+    {
+        "name": "Blancanieves",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Snow_white_1937_trailer_screenshot_(2).jpg",
+        "forbiddenWords": [
+            "Manzana",
+            "Enanitos",
+            "Espejo",
+            "Bruja"
+        ]
+    },
+    {
+        "name": "Bella",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Disneyland_2012-06-30_Belle.jpg",
+        "forbiddenWords": [
+            "Bestia",
+            "Rosa",
+            "Libro",
+            "Vestido amarillo"
+        ]
+    },
+    {
+        "name": "Jasmine",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Princess_Jasmine_Disney's_California_Adventure_2011.jpg",
+        "forbiddenWords": [
+            "Aladdín",
+            "Alfombra",
+            "Genio",
+            "Tigre"
+        ]
+    },
+    {
+        "name": "Starfire",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Starfire_(Teen_Titans_Go!).svg",
+        "forbiddenWords": [
+            "Pelo rosa",
+            "Titans",
+            "Volar",
+            "Ojos verdes"
+        ]
+    },
+    {
+        "name": "Raven",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Raven_(Teen_Titans_Go!).svg",
+        "forbiddenWords": [
+            "Capa",
+            "Morado",
+            "Magia",
+            "Oscuridad"
+        ]
+    },
+    {
+        "name": "Chico Bestia",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Beast_Boy_(Teen_Titans_Go!).svg",
+        "forbiddenWords": [
+            "Verde",
+            "Animales",
+            "Transformar",
+            "Titans"
+        ]
+    },
+    {
+        "name": "Spirit",
+        "image": "https://upload.wikimedia.org/wikipedia/en/7/77/Spirit_Stallion_of_the_Cimarron_poster.jpg",
+        "forbiddenWords": [
+            "Caballo",
+            "Lucky",
+            "Correr",
+            "Marrón"
+        ]
+    },
+    {
+        "name": "Princesa Peach",
+        "image": "https://upload.wikimedia.org/wikipedia/en/1/16/Princess_Peach_Stock_Art.png",
+        "forbiddenWords": [
+            "Mario",
+            "Rosa",
+            "Corona",
+            "Castillo"
+        ]
+    },
+    {
+        "name": "Bowser",
+        "image": "https://upload.wikimedia.org/wikipedia/en/9/92/Bowser_Stock_Art_2021.png",
+        "forbiddenWords": [
+            "Tortuga",
+            "Malo",
+            "Fuego",
+            "Mario"
+        ]
+    },
+    {
+        "name": "Sam Snow",
+        "image": "https://static.wikia.nocookie.net/thecreaturecases/images/0/08/Sam_Snow_Best_Picture.png/revision/latest?cb=20230806010901",
+        "forbiddenWords": [
+            "Leopardo",
+            "Detective",
+            "Nieve",
+            "Kit"
+        ]
+    },
+    {
+        "name": "Kit Casey",
+        "image": "https://static.wikia.nocookie.net/thecreaturecases/images/c/c0/Kit_Casey_Best_Picture.png/revision/latest?cb=20230806011008",
+        "forbiddenWords": [
+            "Zorro",
+            "Gafas",
+            "Inventos",
+            "Sam"
+        ]
+    },
+    {
+        "name": "Callum",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/d/d4/Callum_concept_art.jpg",
+        "forbiddenWords": [
+            "Príncipe",
+            "Magia",
+            "Cielo",
+            "Libro"
+        ]
+    },
+    {
+        "name": "Rayla",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/a/a2/Rayla_Standard_Outfit_S1-3.png",
+        "forbiddenWords": [
+            "Elfa",
+            "Cuernos",
+            "Espadas",
+            "Luna"
+        ]
+    },
+    {
+        "name": "Ezran",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/6/62/Ezran_S1-3.png",
+        "forbiddenWords": [
+            "Rey",
+            "Animales",
+            "Pequeño",
+            "Cebo (Bait)"
+        ]
+    },
+    {
+        "name": "Zym (Azymondias)",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/b/b3/Azymondias_S3.png",
+        "forbiddenWords": [
+            "Dragón",
+            "Bebé",
+            "Rayo",
+            "Volar"
+        ]
+    },
+    {
+        "name": "Viren",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/b/bf/Viren_S1-3.png",
+        "forbiddenWords": [
+            "Malo",
+            "Bastón",
+            "Mago",
+            "Padre"
+        ]
+    },
+    {
+        "name": "Claudia",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/3/36/Claudia_S1-3.png",
+        "forbiddenWords": [
+            "Pelo negro",
+            "Magia oscura",
+            "Hija",
+            "Libro"
+        ]
+    },
+    {
+        "name": "Soren",
+        "image": "https://static.wikia.nocookie.net/dragonprince/images/7/73/Soren_S1-3.png",
+        "forbiddenWords": [
+            "Rubio",
+            "Guardia",
+            "Armadura",
+            "Espada"
+        ]
+    },
+    {
+        "name": "Rumi (K-Pop Demon Hunters)",
+        "image": "https://static.wikia.nocookie.net/sony-pictures-animation/images/5/5e/Rumi.jpg",
+        "forbiddenWords": [
+            "Cantante",
+            "Líder",
+            "Micrófono",
+            "Demonio"
+        ]
+    },
+    {
+        "name": "Mira (K-Pop Demon Hunters)",
+        "image": "https://static.wikia.nocookie.net/sony-pictures-animation/images/2/28/Mira.jpg",
+        "forbiddenWords": [
+            "Huntrix",
+            "Pelo azul",
+            "Cazadora",
+            "Moda"
+        ]
+    },
+    {
+        "name": "Zoey (K-Pop Demon Hunters)",
+        "image": "https://static.wikia.nocookie.net/sony-pictures-animation/images/0/09/Zoey.jpg",
+        "forbiddenWords": [
+            "Espadas",
+            "Rosa",
+            "Saltar",
+            "Huntrix"
+        ]
+    },
+    {
+        "name": "Sophia y Wildstar (Unicorn Academy)",
+        "image": "https://static.wikia.nocookie.net/unicornacademy/images/8/87/Sophia_and_Wildstar.png",
+        "forbiddenWords": [
+            "Arcoíris",
+            "Luz",
+            "Magia",
+            "Pelo de colores"
+        ]
+    },
+    {
+        "name": "Ava y Leaf (Unicorn Academy)",
+        "image": "https://static.wikia.nocookie.net/unicornacademy/images/3/36/Ava_and_Leaf.png",
+        "forbiddenWords": [
+            "Plantas",
+            "Flores",
+            "Jardín",
+            "Verde"
+        ]
+    },
+    {
+        "name": "Isabel y River (Unicorn Academy)",
+        "image": "https://static.wikia.nocookie.net/unicornacademy/images/4/4e/Isabel_and_River.png",
+        "forbiddenWords": [
+            "Agua",
+            "Deportes",
+            "Azul",
+            "Río"
+        ]
+    },
+    {
+        "name": "Layla y Glacier (Unicorn Academy)",
+        "image": "https://static.wikia.nocookie.net/unicornacademy/images/9/9e/Layla_and_Glacier.png",
+        "forbiddenWords": [
+            "Hielo",
+            "Libros",
+            "Estudiar",
+            "Nieve"
+        ]
+    },
+    {
+        "name": "Valentina y Cinder (Unicorn Academy)",
+        "image": "https://static.wikia.nocookie.net/unicornacademy/images/e/e3/Valentina_and_Cinder.png",
+        "forbiddenWords": [
+            "Fuego",
+            "Mala",
+            "Naranja",
+            "Calor"
+        ]
+    },
+    {
+        "name": "Merlinda (Mermaid Magic)",
+        "image": "https://static.wikia.nocookie.net/rainbowmermaidmagic/images/7/7e/Merlinda_Render.png",
+        "forbiddenWords": [
+            "Princesa",
+            "Agua",
+            "Tridente",
+            "Mertropia"
+        ]
+    },
+    {
+        "name": "Sasha (Mermaid Magic)",
+        "image": "https://static.wikia.nocookie.net/rainbowmermaidmagic/images/2/23/Sasha_Render.png",
+        "forbiddenWords": [
+            "Amiga",
+            "Fotos",
+            "Burbujas",
+            "Pelo naranja"
+        ]
+    },
+    {
+        "name": "Nerissa (Mermaid Magic)",
+        "image": "https://static.wikia.nocookie.net/rainbowmermaidmagic/images/9/91/Nerissa_Render.png",
+        "forbiddenWords": [
+            "Electricidad",
+            "Guerrera",
+            "Rayo",
+            "Negro"
+        ]
+    }
+]

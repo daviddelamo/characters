@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { characters, forbiddenWords } from "@/db/schema";
-import { s3Client, S3_BUCKET_NAME, S3_PUBLIC_URL } from "@/lib/s3";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { v4 as uuidv4 } from "uuid";
+import { saveImage, processCharacter } from "@/lib/character-utils";
 
 export async function POST(req: NextRequest) {
     try {
@@ -16,55 +13,18 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Name and image are required" }, { status: 400 });
         }
 
-        // 1. Upload image (S3 or Local)
-        const fileExtension = image.name.split(".").pop();
-        const fileName = `${uuidv4()}.${fileExtension}`;
-        let imageUrl = "";
+        // 1. Save image
+        const buffer = Buffer.from(await image.arrayBuffer());
+        const imageUrl = await saveImage(buffer, image.name, image.type);
 
-        if (s3Client) {
-            const buffer = Buffer.from(await image.arrayBuffer());
-            await s3Client.send(
-                new PutObjectCommand({
-                    Bucket: S3_BUCKET_NAME,
-                    Key: fileName,
-                    Body: buffer,
-                    ContentType: image.type,
-                })
-            );
-            imageUrl = `${S3_PUBLIC_URL}/${fileName}`;
-        } else {
-            const { writeFile } = await import("fs/promises");
-            const path = await import("path");
-            const buffer = Buffer.from(await image.arrayBuffer());
-            const uploadDir = path.join(process.cwd(), "public", "uploads");
-            await writeFile(path.join(uploadDir, fileName), buffer);
-            imageUrl = `/uploads/${fileName}`;
-        }
+        // 2. Process character (Create or Update)
+        const words = forbiddenWordsInput ? JSON.parse(forbiddenWordsInput) as string[] : [];
+        const character = await processCharacter(name, imageUrl, words);
 
-
-        // 2. Insert into DB
-        const [newCharacter] = await db.insert(characters).values({
-            name,
-            imageUrl,
-        }).returning();
-
-        // 3. Insert forbidden words
-        if (forbiddenWordsInput) {
-            const words = JSON.parse(forbiddenWordsInput) as string[];
-            if (words.length > 0) {
-                await db.insert(forbiddenWords).values(
-                    words.map((word) => ({
-                        characterId: newCharacter.id,
-                        word: word.trim(),
-                    }))
-                );
-            }
-        }
-
-        return NextResponse.json(newCharacter);
+        return NextResponse.json(character);
     } catch (error) {
-        console.error("Error creating character:", error);
-        return NextResponse.json({ error: "Failed to create character" }, { status: 500 });
+        console.error("Error creating/updating character:", error);
+        return NextResponse.json({ error: "Failed to create/update character" }, { status: 500 });
     }
 }
 

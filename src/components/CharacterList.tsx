@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Trash2, AlertCircle } from "lucide-react";
+import { Trash2, AlertCircle, Pencil } from "lucide-react";
 
 interface ForbiddenWord {
     id: string;
@@ -15,7 +15,13 @@ interface Character {
     forbiddenWords: ForbiddenWord[];
 }
 
-export default function CharacterList({ refreshKey }: { refreshKey: number }) {
+export default function CharacterList({
+    refreshKey,
+    onEdit
+}: {
+    refreshKey: number;
+    onEdit: (character: Character) => void;
+}) {
     const [characters, setCharacters] = useState<Character[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -64,13 +70,23 @@ export default function CharacterList({ refreshKey }: { refreshKey: number }) {
                 characters.map((char) => (
                     <div key={char.id} className="glass-card overflow-hidden group">
                         <div className="h-48 relative">
-                            <img src={char.imageUrl} alt={char.name} className="w-full h-full object-cover" />
-                            <button
-                                onClick={() => deleteCharacter(char.id)}
-                                className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
-                            >
-                                <Trash2 className="w-5 h-5" />
-                            </button>
+                            <img src={char.imageUrl} alt={char.name} className="w-full h-full object-fill" />
+                            <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button
+                                    onClick={() => onEdit(char)}
+                                    className="p-2 bg-white/90 backdrop-blur-sm text-purple-600 rounded-lg shadow-sm hover:bg-purple-50 transition-colors"
+                                    title="Editar"
+                                >
+                                    <Pencil className="w-5 h-5" />
+                                </button>
+                                <button
+                                    onClick={() => deleteCharacter(char.id)}
+                                    className="p-2 bg-red-500 text-white rounded-lg shadow-sm hover:bg-red-600 transition-colors"
+                                    title="Borrar"
+                                >
+                                    <Trash2 className="w-5 h-5" />
+                                </button>
+                            </div>
                         </div>
                         <div className="p-4">
                             <h3 className="text-xl font-bold text-gray-800 mb-2">{char.name}</h3>
