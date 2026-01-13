@@ -16,10 +16,10 @@ services:
       - NEXT_TELEMETRY_DISABLED=1
     volumes:
       - ./public/uploads:/app/public/uploads
-    # Runtime permission fix
+    # Runtime permission fix: ensure app user can write to volumes and run the server
     user: "root"
     command: >
-      sh -c "mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public && su nextjs -s /bin/sh -c 'node server.js'"
+      sh -c "mkdir -p /app/public/uploads && chown -R nextjs:nodejs /app/public /app/drizzle && su nextjs -s /bin/sh -c 'node server.js'"
     depends_on:
       db:
         condition: service_healthy
