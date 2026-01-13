@@ -28,7 +28,10 @@ export async function saveImage(imageBuffer: Buffer, fileName: string, contentTy
         // Ensure upload directory exists
         await mkdir(uploadDir, { recursive: true });
 
-        await writeFile(path.join(uploadDir, uniqueFileName), imageBuffer);
+        const fullPath = path.join(uploadDir, uniqueFileName);
+        console.log(`[DEBUG] Saving image to: ${fullPath}`);
+
+        await writeFile(fullPath, imageBuffer);
         imageUrl = `/uploads/${uniqueFileName}`;
     }
 
