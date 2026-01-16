@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, X, Upload, Loader2, Image as ImageIcon } from "lucide-react";
+import { Plus, X, Upload, Loader2, Image as ImageIcon, Search, Check } from "lucide-react";
 
 interface CharacterData {
     id: string;
@@ -27,6 +27,12 @@ export default function CharacterForm({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
 
+    // Image Search State
+    const [searchResults, setSearchResults] = useState<{ link: string; thumbnailLink: string; title: string }[]>([]);
+    const [isSearchingImages, setIsSearchingImages] = useState(false);
+    const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+    const [debouncedName, setDebouncedName] = useState(name);
+
     const isEditing = !!initialData;
 
     useEffect(() => {
@@ -35,17 +41,57 @@ export default function CharacterForm({
             setImagePreview(initialData.imageUrl);
             setForbiddenWords(initialData.forbiddenWords.map(fw => fw.word));
             setImage(null);
+            setSelectedImageUrl(initialData.imageUrl); // Treat existing image as "selected"? Or just preview.
         } else {
             setName("");
             setImagePreview(null);
             setForbiddenWords([]);
             setImage(null);
+            setSelectedImageUrl(null);
+            setSearchResults([]);
         }
     }, [initialData]);
+
+    // Debounce name for search
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedName(name);
+        }, 800);
+        return () => clearTimeout(timer);
+    }, [name]);
+
+    // Auto-search images
+    useEffect(() => {
+        if (debouncedName && debouncedName.length >= 3 && !initialData) { // Only auto-search for new characters or clear intent
+            performImageSearch(debouncedName);
+        }
+    }, [debouncedName]);
+
+    const performImageSearch = async (query: string) => {
+        setIsSearchingImages(true);
+        try {
+            const res = await fetch(`/api/google-images?q=${encodeURIComponent(query)}`);
+            if (res.ok) {
+                const data = await res.json();
+                setSearchResults(data.images || []);
+            }
+        } catch (error) {
+            console.error("Error searching images:", error);
+        } finally {
+            setIsSearchingImages(false);
+        }
+    };
+
+    const handleSelectImage = (url: string) => {
+        setSelectedImageUrl(url);
+        setImagePreview(url);
+        setImage(null); // Clear any uploaded file
+    };
 
     const handleFile = useCallback((file: File) => {
         if (file && file.type.startsWith("image/")) {
             setImage(file);
+            setSelectedImageUrl(null); // Clear selected URL
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result as string);
@@ -105,12 +151,16 @@ export default function CharacterForm({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name || (!image && !isEditing)) return;
+        if (!name || (!image && !selectedImageUrl && !isEditing)) return;
 
         setIsSubmitting(true);
         const formData = new FormData();
         formData.append("name", name);
-        if (image) formData.append("image", image);
+        if (image) {
+            formData.append("image", image);
+        } else if (selectedImageUrl) {
+            formData.append("imageUrl", selectedImageUrl);
+        }
         formData.append("forbiddenWords", JSON.stringify(forbiddenWords));
 
         try {
@@ -127,6 +177,8 @@ export default function CharacterForm({
                     setName("");
                     setImage(null);
                     setImagePreview(null);
+                    setSelectedImageUrl(null);
+                    setSearchResults([]);
                     setForbiddenWords([]);
                 }
                 onCharacterCreated();
@@ -172,13 +224,13 @@ export default function CharacterForm({
 
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Imagen</label>
-                    <div className="relative group">
+                    <div className="relative group mb-4">
                         <input
                             type="file"
                             accept="image/*"
                             onChange={handleImageChange}
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                            required={!imagePreview}
+                            required={!imagePreview && !selectedImageUrl}
                         />
                         <div
                             onDragOver={handleDragOver}
@@ -211,6 +263,42 @@ export default function CharacterForm({
                             )}
                         </div>
                     </div>
+
+                    {/* Image Search Results */}
+                    {(isSearchingImages || searchResults.length > 0) && (
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Resultados de búsqueda web
+                                </label>
+                                {isSearchingImages && <Loader2 className="w-4 h-4 text-purple-500 animate-spin" />}
+                            </div>
+
+                            <div className="grid grid-cols-4 gap-2">
+                                {searchResults.map((img, idx) => (
+                                    <button
+                                        key={idx}
+                                        type="button"
+                                        onClick={() => handleSelectImage(img.link)}
+                                        className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all group ${selectedImageUrl === img.link ? 'border-purple-500 ring-2 ring-purple-500 ring-offset-2' : 'border-transparent hover:border-purple-300'
+                                            }`}
+                                    >
+                                        <img src={img.thumbnailLink} alt={img.title} className="w-full h-full object-cover" />
+                                        {selectedImageUrl === img.link && (
+                                            <div className="absolute inset-0 bg-purple-500/20 flex items-center justify-center">
+                                                <div className="bg-purple-500 text-white rounded-full p-1">
+                                                    <Check className="w-4 h-4" />
+                                                </div>
+                                            </div>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                            <p className="text-xs text-gray-400 text-center">
+                                {isSearchingImages ? 'Buscando imágenes...' : 'Selecciona una imagen de la web o sube la tuya'}
+                            </p>
+                        </div>
+                    )}
                 </div>
 
                 <div>

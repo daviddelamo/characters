@@ -338,5 +338,135 @@
             "Rayo",
             "Negro"
         ]
+    },
+    {
+        "name": "Hello Kitty",
+        "image": "https://upload.wikimedia.org/wikipedia/en/0/05/Hello_kitty_character_portrait.png",
+        "forbiddenWords": [
+            "Gato",
+            "Lazo",
+            "Rojo",
+            "Boca"
+        ]
+    },
+    {
+        "name": "Kuromi (Hello Kitty)",
+        "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Kuromi_Sanrio_Character.png",
+        "forbiddenWords": [
+            "Calavera",
+            "Negro",
+            "Diablillo",
+            "My Melody"
+        ]
+    },
+    {
+        "name": "My Melody (Hello Kitty)",
+        "image": "https://upload.wikimedia.org/wikipedia/en/6/6f/My_Melody_Sanrio_Character.png",
+        "forbiddenWords": [
+            "Conejo",
+            "Rosa",
+            "Capucha",
+            "Kuromi"
+        ]
+    },
+    {
+        "name": "Cinnamoroll (Hello Kitty)",
+        "image": "https://upload.wikimedia.org/wikipedia/en/2/2d/Cinnamoroll_Sanrio_Character.png",
+        "forbiddenWords": [
+            "Perro",
+            "Blanco",
+            "Orejas largas",
+            "Volar"
+        ]
+    },
+    {
+        "name": "Aurora (Bella Durmiente)",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Aurora_Disney.jpg",
+        "forbiddenWords": [
+            "Dormir",
+            "Rosa",
+            "Hada",
+            "Rueca"
+        ]
+    },
+    {
+        "name": "Maléfica",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Maleficent_Disney_Parks.jpg",
+        "forbiddenWords": [
+            "Bruja",
+            "Cuernos",
+            "Dragón",
+            "Negro"
+        ]
+    },
+    {
+        "name": "Úrsula",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Ursula_Disney_Dream_Portrait.jpg",
+        "forbiddenWords": [
+            "Pulpo",
+            "Mar",
+            "Ariel",
+            "Voz"
+        ]
+    },
+    {
+        "name": "Capitán Garfio",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Captain_Hook_Disney_World.jpg",
+        "forbiddenWords": [
+            "Pirata",
+            "Mano",
+            "Cocodrilo",
+            "Peter Pan"
+        ]
+    },
+    {
+        "name": "Cruella de Vil",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cruella_de_Vil_Disneyland.jpg",
+        "forbiddenWords": [
+            "Perros",
+            "Dálmatas",
+            "Abrigo",
+            "Blanco y negro"
+        ]
+    },
+    {
+        "name": "Jafar",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Jafar_Disneyland.jpg",
+        "forbiddenWords": [
+            "Aladdín",
+            "Loro",
+            "Bastón",
+            "Mago"
+        ]
+    },
+    {
+        "name": "Reina de Corazones",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Queen_of_Hearts_Disneyland_Tokyo.jpg",
+        "forbiddenWords": [
+            "Alicia",
+            "Cartas",
+            "Corona",
+            "Roja"
+        ]
+    },
+    {
+        "name": "Scar (El Rey León)",
+        "image": "https://upload.wikimedia.org/wikipedia/en/9/98/Scar_(The_Lion_King).png",
+        "forbiddenWords": [
+            "León",
+            "Malo",
+            "Simba",
+            "Cicatriz"
+        ]
+    },
+    {
+        "name": "Hades",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Hades_Disney.jpg",
+        "forbiddenWords": [
+            "Fuego azul",
+            "Hércules",
+            "Pelo",
+            "Dios"
+        ]
     }
 ]

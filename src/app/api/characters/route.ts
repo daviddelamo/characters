@@ -6,16 +6,35 @@ export async function POST(req: NextRequest) {
     try {
         const formData = await req.formData();
         const name = formData.get("name") as string;
-        const image = formData.get("image") as File;
+        const image = formData.get("image") as File | null;
+        const imageUrlParam = formData.get("imageUrl") as string | null;
         const forbiddenWordsInput = formData.get("forbiddenWords") as string; // JSON string array
 
-        if (!name || !image) {
-            return NextResponse.json({ error: "Name and image are required" }, { status: 400 });
+        if (!name || (!image && !imageUrlParam)) {
+            return NextResponse.json({ error: "Name and image (file or URL) are required" }, { status: 400 });
         }
 
         // 1. Save image
-        const buffer = Buffer.from(await image.arrayBuffer());
-        const imageUrl = await saveImage(buffer, image.name, image.type);
+        let imageUrl: string;
+
+        if (imageUrlParam) {
+            // Download from URL
+            const { downloadImage } = await import("@/lib/character-utils");
+            try {
+                const { buffer, contentType, fileName } = await downloadImage(imageUrlParam);
+                imageUrl = await saveImage(buffer, fileName, contentType);
+            } catch (error) {
+                console.error("Failed to download image from URL:", error);
+                return NextResponse.json({ error: "Failed to download image from URL" }, { status: 400 });
+            }
+        } else if (image) {
+            // Use uploaded file
+            const buffer = Buffer.from(await image.arrayBuffer());
+            imageUrl = await saveImage(buffer, image.name, image.type);
+        } else {
+            // Should not happen due to check above
+            return NextResponse.json({ error: "No image provided" }, { status: 400 });
+        }
 
         // 2. Process character (Create or Update)
         const words = forbiddenWordsInput ? JSON.parse(forbiddenWordsInput) as string[] : [];
