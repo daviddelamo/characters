@@ -20,7 +20,8 @@ interface Character {
 export default function GameSession() {
     const [characters, setCharacters] = useState<Character[]>([]);
     const [currentCharacter, setCurrentCharacter] = useState<Character | null>(null);
-    const [phase, setPhase] = useState<"lobby" | "pass" | "describe" | "gameover">("lobby");
+    const [phase, setPhase] = useState<"lobby" | "pass" | "countdown" | "describe" | "gameover">("lobby");
+    const [count, setCount] = useState(3);
     const [isLoading, setIsLoading] = useState(true);
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -48,6 +49,17 @@ export default function GameSession() {
             setIsLoading(false);
         }
     }, [gameId, fetchCandidates]);
+
+    useEffect(() => {
+        if (phase === "countdown") {
+            if (count > 0) {
+                const timer = setTimeout(() => setCount(count - 1), 1000);
+                return () => clearTimeout(timer);
+            } else {
+                setPhase("describe");
+            }
+        }
+    }, [phase, count]);
 
     const markAsPlayed = async (characterId: string) => {
         if (!gameId) return;
@@ -83,6 +95,11 @@ export default function GameSession() {
         markAsPlayed(randomChar.id);
     };
 
+    const startCountdown = () => {
+        setCount(3);
+        setPhase("countdown");
+    };
+
     if (!gameId) {
         return (
             <div className="text-center p-8 glass-card space-y-6">
@@ -98,7 +115,7 @@ export default function GameSession() {
         return <div className="text-center p-12 text-purple-600 font-bold">Cargando personajes...</div>;
     }
 
-    if (characters.length === 0 && phase !== "describe" && phase !== "pass" && !currentCharacter) {
+    if (characters.length === 0 && phase !== "describe" && phase !== "pass" && phase !== "countdown" && !currentCharacter) {
         // Special case: loaded game with 0 candidates and no current character active
         return (
             <div className="text-center space-y-8 py-12 animate-in fade-in zoom-in duration-300">
@@ -169,12 +186,26 @@ export default function GameSession() {
                 </div>
                 <p className="text-xl text-gray-500 font-medium">Los demás no pueden mirar...</p>
                 <button
-                    onClick={() => setPhase("describe")}
+                    onClick={startCountdown}
                     className="premium-button px-12 py-5 rounded-3xl text-2xl flex items-center gap-3 mx-auto"
                 >
                     <Eye className="w-8 h-8" />
                     Ya lo tengo
                 </button>
+            </div>
+        );
+    }
+
+    if (phase === "countdown") {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[50vh] animate-in fade-in zoom-in duration-300 space-y-8">
+                <h2 className="text-4xl font-black text-gray-800">Prepárate...</h2>
+                <div className="relative">
+                    <div className="absolute inset-0 blur-3xl bg-pink-400 opacity-40 animate-pulse"></div>
+                    <div className="text-9xl font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-pink-600 drop-shadow-2xl">
+                        {count}
+                    </div>
+                </div>
             </div>
         );
     }
