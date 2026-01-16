@@ -1,7 +1,31 @@
+"use client";
+
 import Link from "next/link";
-import { Play, Settings, Sparkles } from "lucide-react";
+import { Play, Settings, Sparkles, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Home() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleStartGame = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/games", { method: "POST" });
+      if (res.ok) {
+        const game = await res.json();
+        router.push(`/play?gameId=${game.id}`);
+      } else {
+        console.error("Failed to create game");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error starting game:", error);
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-4 space-y-12">
       <div className="text-center space-y-4">
@@ -22,13 +46,18 @@ export default function Home() {
       </div>
 
       <div className="grid gap-4 w-full max-w-sm">
-        <Link
-          href="/play"
-          className="premium-button p-6 rounded-3xl text-2xl flex items-center justify-center gap-3"
+        <button
+          onClick={handleStartGame}
+          disabled={loading}
+          className="premium-button p-6 rounded-3xl text-2xl flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          <Play className="fill-current w-8 h-8" />
-          ¡Jugar ahora!
-        </Link>
+          {loading ? (
+            <Loader2 className="w-8 h-8 animate-spin" />
+          ) : (
+            <Play className="fill-current w-8 h-8" />
+          )}
+          {loading ? "Preparando..." : "¡Jugar ahora!"}
+        </button>
         <Link
           href="/admin"
           className="glass-card p-6 rounded-3xl text-xl flex items-center justify-center gap-3 text-purple-600 font-bold hover:bg-white/60 transition-colors"

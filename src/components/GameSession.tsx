@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Sparkles, Eye, EyeOff, RotateCcw, ChevronRight } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Sparkles, Eye, EyeOff, RotateCcw, ChevronRight, Home as HomeIcon } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface ForbiddenWord {
     id: string;
@@ -19,43 +20,116 @@ interface Character {
 export default function GameSession() {
     const [characters, setCharacters] = useState<Character[]>([]);
     const [currentCharacter, setCurrentCharacter] = useState<Character | null>(null);
-    const [phase, setPhase] = useState<"lobby" | "pass" | "describe">("lobby");
+    const [phase, setPhase] = useState<"lobby" | "pass" | "describe" | "gameover">("lobby");
     const [isLoading, setIsLoading] = useState(true);
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const gameId = searchParams.get("gameId");
+
+    const fetchCandidates = useCallback(async () => {
+        if (!gameId) return;
+        try {
+            const res = await fetch(`/api/games/${gameId}/candidates`);
+            if (res.ok) {
+                const data = await res.json();
+                setCharacters(data);
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [gameId]);
 
     useEffect(() => {
-        const fetchCharacters = async () => {
-            try {
-                const res = await fetch("/api/characters");
-                if (res.ok) {
-                    const data = await res.json();
-                    setCharacters(data);
-                }
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchCharacters();
-    }, []);
+        if (gameId) {
+            fetchCandidates();
+        } else {
+            setIsLoading(false);
+        }
+    }, [gameId, fetchCandidates]);
+
+    const markAsPlayed = async (characterId: string) => {
+        if (!gameId) return;
+        try {
+            await fetch(`/api/games/${gameId}/played`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ characterId }),
+            });
+        } catch (error) {
+            console.error("Error marking character as played:", error);
+        }
+    };
 
     const nextCharacter = () => {
-        if (characters.length === 0) return;
-        const randomChar = characters[Math.floor(Math.random() * characters.length)];
+        if (characters.length === 0) {
+            setPhase("gameover");
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        const randomChar = characters[randomIndex];
+
         setCurrentCharacter(randomChar);
         setPhase("pass");
+
+        // Optimistic update: remove from local list
+        const newCharacters = [...characters];
+        newCharacters.splice(randomIndex, 1);
+        setCharacters(newCharacters);
+
+        // Sync with backend
+        markAsPlayed(randomChar.id);
     };
+
+    if (!gameId) {
+        return (
+            <div className="text-center p-8 glass-card space-y-6">
+                <p className="text-2xl font-bold text-gray-800">No se encontró partida.</p>
+                <Link href="/" className="premium-button px-6 py-3 rounded-xl inline-block">
+                    Volver al Inicio
+                </Link>
+            </div>
+        );
+    }
 
     if (isLoading) {
         return <div className="text-center p-12 text-purple-600 font-bold">Cargando personajes...</div>;
     }
 
-    if (characters.length === 0) {
+    if (characters.length === 0 && phase !== "describe" && phase !== "pass" && !currentCharacter) {
+        // Special case: loaded game with 0 candidates and no current character active
         return (
-            <div className="text-center p-8 glass-card space-y-6">
-                <p className="text-2xl font-bold text-gray-800">Ups, no hay personajes.</p>
-                <Link href="/admin" className="premium-button px-6 py-3 rounded-xl inline-block">
-                    Ir a Admin
+            <div className="text-center space-y-8 py-12 animate-in fade-in zoom-in duration-300">
+                <div className="w-32 h-32 mx-auto glass-card flex items-center justify-center bg-purple-100">
+                    <Sparkles className="w-16 h-16 text-purple-600" />
+                </div>
+                <h2 className="text-4xl font-black text-gray-800">¡Juego Completado!</h2>
+                <p className="text-lg text-purple-600 font-medium px-4">
+                    Ya has jugado con todos los personajes en esta partida.
+                </p>
+                <Link href="/" className="premium-button px-10 py-5 rounded-3xl text-2xl inline-flex items-center gap-3">
+                    <HomeIcon className="w-6 h-6" />
+                    Nueva Partida
+                </Link>
+            </div>
+        );
+    }
+
+    if (phase === "gameover") {
+        return (
+            <div className="text-center space-y-8 py-12 animate-in fade-in zoom-in duration-300">
+                <div className="w-32 h-32 mx-auto glass-card flex items-center justify-center bg-purple-100">
+                    <Sparkles className="w-16 h-16 text-purple-600" />
+                </div>
+                <h2 className="text-4xl font-black text-gray-800">¡Se acabaron!</h2>
+                <p className="text-lg text-purple-600 font-medium px-4">
+                    No quedan más personajes en esta partida.
+                </p>
+                <Link href="/" className="premium-button px-10 py-5 rounded-3xl text-2xl inline-flex items-center gap-3">
+                    <HomeIcon className="w-6 h-6" />
+                    Nueva Partida
                 </Link>
             </div>
         );
@@ -72,9 +146,14 @@ export default function GameSession() {
                 <p className="text-lg text-purple-600 font-medium px-4">
                     Un jugador tendrá que describir el personaje y el resto adivinarlo.
                 </p>
-                <button onClick={nextCharacter} className="premium-button px-10 py-5 rounded-3xl text-2xl">
-                    ¡Empezar!
-                </button>
+                <div className="text-sm font-bold text-pink-500 bg-pink-50 px-4 py-2 rounded-full inline-block mb-4">
+                    Personajes restantes: {characters.length}
+                </div>
+                <div>
+                    <button onClick={nextCharacter} className="premium-button px-10 py-5 rounded-3xl text-2xl">
+                        ¡Empezar!
+                    </button>
+                </div>
             </div>
         );
     }
@@ -143,7 +222,7 @@ export default function GameSession() {
                         className="flex-1 glass-card p-4 landscape:p-5 rounded-3xl text-purple-600 font-bold flex items-center justify-center gap-2"
                     >
                         <RotateCcw className="w-6 h-6" />
-                        Reiniciar
+                        Pausar
                     </button>
                     <button
                         onClick={nextCharacter}

@@ -1,6 +1,7 @@
 import GameSession from "@/components/GameSession";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { Suspense } from "react";
 
 export default function PlayPage() {
     return (
@@ -15,7 +16,9 @@ export default function PlayPage() {
             </div>
 
             <div className="flex-1 flex flex-col justify-center">
-                <GameSession />
+                <Suspense fallback={<div className="text-center text-purple-600">Cargando partida...</div>}>
+                    <GameSession />
+                </Suspense>
             </div>
         </main>
     );
