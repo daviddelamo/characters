@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
         const image = formData.get("image") as File | null;
         const imageUrlParam = formData.get("imageUrl") as string | null;
         const forbiddenWordsInput = formData.get("forbiddenWords") as string; // JSON string array
+        const setIdsInput = formData.get("setIds") as string; // JSON string array
 
         if (!name || (!image && !imageUrlParam)) {
             return NextResponse.json({ error: "Name and image (file or URL) are required" }, { status: 400 });
@@ -38,7 +39,8 @@ export async function POST(req: NextRequest) {
 
         // 2. Process character (Create or Update)
         const words = forbiddenWordsInput ? JSON.parse(forbiddenWordsInput) as string[] : [];
-        const character = await processCharacter(name, imageUrl, words);
+        const setIds = setIdsInput ? JSON.parse(setIdsInput) as string[] : [];
+        const character = await processCharacter(name, imageUrl, words, undefined, setIds);
 
         return NextResponse.json(character);
     } catch (error) {
@@ -52,6 +54,11 @@ export async function GET() {
         const allCharacters = await db.query.characters.findMany({
             with: {
                 forbiddenWords: true,
+                sets: {
+                    with: {
+                        set: true,
+                    }
+                }
             },
         });
         return NextResponse.json(allCharacters);

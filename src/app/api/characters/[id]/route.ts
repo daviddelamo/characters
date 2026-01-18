@@ -16,6 +16,7 @@ export async function PATCH(
         const name = formData.get("name") as string;
         const forbiddenWordsInput = formData.get("forbiddenWords") as string;
         const imageFile = formData.get("image") as File | null;
+        const setIdsInput = formData.get("setIds") as string;
 
         // 1. Get existing character to check for current image
         const existingCharacter = await db.query.characters.findFirst({
@@ -38,7 +39,8 @@ export async function PATCH(
 
         // 3. Update character
         const words = forbiddenWordsInput ? JSON.parse(forbiddenWordsInput) as string[] : undefined;
-        const updatedCharacter = await processCharacter(name || existingCharacter.name, imageUrl, words, id);
+        const setIds = setIdsInput ? JSON.parse(setIdsInput) as string[] : undefined;
+        const updatedCharacter = await processCharacter(name || existingCharacter.name, imageUrl, words, id, setIds);
 
         return NextResponse.json(updatedCharacter);
     } catch (error) {

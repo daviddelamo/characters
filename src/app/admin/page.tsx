@@ -4,7 +4,7 @@ import { useState } from "react";
 import CharacterForm from "@/components/CharacterForm";
 import CharacterList from "@/components/CharacterList";
 import Link from "next/link";
-import { ChevronLeft, ShieldCheck } from "lucide-react";
+import { ChevronLeft, ShieldCheck, Layers } from "lucide-react";
 import Modal from "@/components/Modal";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
@@ -103,14 +103,23 @@ export default function AdminPage() {
                         <h1 className="text-3xl font-extrabold text-gray-800">Panel de Admin</h1>
                     </div>
                 </div>
-                <button
-                    onClick={handleDbSync}
-                    className="flex items-center gap-2 px-6 py-2 bg-white text-purple-600 border border-purple-200 rounded-full hover:bg-purple-50 transition-all font-semibold shadow-sm overflow-hidden relative group"
-                >
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <ShieldCheck className="w-5 h-5" />
-                    Sincronizar DB
-                </button>
+                <div className="flex gap-4">
+                    <Link
+                        href="/admin/sets"
+                        className="flex items-center gap-2 px-6 py-2 bg-white text-purple-600 border border-purple-200 rounded-full hover:bg-purple-50 transition-all font-semibold shadow-sm overflow-hidden relative group"
+                    >
+                        <Layers className="w-5 h-5" />
+                        Gestionar Sets
+                    </Link>
+                    <button
+                        onClick={handleDbSync}
+                        className="flex items-center gap-2 px-6 py-2 bg-white text-purple-600 border border-purple-200 rounded-full hover:bg-purple-50 transition-all font-semibold shadow-sm overflow-hidden relative group"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <ShieldCheck className="w-5 h-5" />
+                        Sincronizar DB
+                    </button>
+                </div>
             </div>
 
             <div className="space-y-12">

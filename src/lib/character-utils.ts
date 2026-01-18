@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { characters, forbiddenWords } from "@/db/schema";
+import { characters, forbiddenWords, characterSets } from "@/db/schema";
 import { s3Client, S3_BUCKET_NAME, S3_PUBLIC_URL } from "@/lib/s3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
@@ -38,7 +38,7 @@ export async function saveImage(imageBuffer: Buffer, fileName: string, contentTy
     return imageUrl;
 }
 
-export async function processCharacter(name: string, imageUrl: string, forbiddenWordsList?: string[], id?: string) {
+export async function processCharacter(name: string, imageUrl: string, forbiddenWordsList?: string[], id?: string, setIds?: string[]) {
     // Check if character exists
     let existingCharacter;
     if (id) {
@@ -62,6 +62,16 @@ export async function processCharacter(name: string, imageUrl: string, forbidden
 
         // Delete old forbidden words
         await db.delete(forbiddenWords).where(eq(forbiddenWords.characterId, character.id));
+
+        // Delete old set assignments only if we are providing a new list (even if empty)
+        // Actually, if setIds is undefined, maybe we shouldn't touch it? 
+        // But usually we send the full state. Let's assume passed setIds replaces everything.
+        // If setIds is undefined, maybe keep existing?
+        // But consistent with forbiddenWords (which is optional), if we pass it we replace?
+        // Let's assume if it is passed (even empty array), we replace. 
+        if (setIds !== undefined) {
+            await db.delete(characterSets).where(eq(characterSets.characterId, character.id));
+        }
     } else {
         // Create new
         [character] = await db.insert(characters).values({
@@ -76,6 +86,16 @@ export async function processCharacter(name: string, imageUrl: string, forbidden
             forbiddenWordsList.map((word) => ({
                 characterId: character.id,
                 word: word.trim(),
+            }))
+        );
+    }
+
+    // Insert sets
+    if (setIds && setIds.length > 0) {
+        await db.insert(characterSets).values(
+            setIds.map((setId) => ({
+                characterId: character.id,
+                setId: setId,
             }))
         );
     }

@@ -8,6 +8,7 @@ interface CharacterData {
     name: string;
     imageUrl: string;
     forbiddenWords: { id: string; word: string }[];
+    sets: { set: { id: string; name: string } }[];
 }
 
 export default function CharacterForm({
@@ -26,6 +27,8 @@ export default function CharacterForm({
     const [forbiddenWords, setForbiddenWords] = useState<string[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
+    const [availableSets, setAvailableSets] = useState<{ id: string; name: string }[]>([]);
+    const [selectedSetIds, setSelectedSetIds] = useState<string[]>([]);
 
     // Image Search State
     const [searchResults, setSearchResults] = useState<{ link: string; thumbnailLink: string; title: string }[]>([]);
@@ -36,12 +39,31 @@ export default function CharacterForm({
     const isEditing = !!initialData;
 
     useEffect(() => {
+        fetchSets();
+    }, []);
+
+    const fetchSets = async () => {
+        try {
+            const res = await fetch("/api/sets");
+            if (res.ok) {
+                const data = await res.json();
+                setAvailableSets(data);
+            }
+        } catch (error) {
+            console.error("Failed to fetch sets", error);
+        }
+    };
+
+    useEffect(() => {
         if (initialData) {
             setName(initialData.name);
             setImagePreview(initialData.imageUrl);
             setForbiddenWords(initialData.forbiddenWords.map(fw => fw.word));
             setImage(null);
-            setSelectedImageUrl(initialData.imageUrl); // Treat existing image as "selected"? Or just preview.
+            setSelectedImageUrl(initialData.imageUrl);
+            // Handle sets
+            const initialSetIds = initialData.sets?.map((s) => s.set.id) || [];
+            setSelectedSetIds(initialSetIds);
         } else {
             setName("");
             setImagePreview(null);
@@ -49,6 +71,7 @@ export default function CharacterForm({
             setImage(null);
             setSelectedImageUrl(null);
             setSearchResults([]);
+            setSelectedSetIds([]);
         }
     }, [initialData]);
 
@@ -149,6 +172,14 @@ export default function CharacterForm({
         setForbiddenWords(forbiddenWords.filter((w) => w !== wordToRemove));
     };
 
+    const toggleSet = (setId: string) => {
+        setSelectedSetIds(prev =>
+            prev.includes(setId)
+                ? prev.filter(id => id !== setId)
+                : [...prev, setId]
+        );
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name || (!image && !selectedImageUrl && !isEditing)) return;
@@ -162,6 +193,7 @@ export default function CharacterForm({
             formData.append("imageUrl", selectedImageUrl);
         }
         formData.append("forbiddenWords", JSON.stringify(forbiddenWords));
+        formData.append("setIds", JSON.stringify(selectedSetIds));
 
         try {
             const url = isEditing ? `/api/characters/${initialData.id}` : "/api/characters";
@@ -180,6 +212,7 @@ export default function CharacterForm({
                     setSelectedImageUrl(null);
                     setSearchResults([]);
                     setForbiddenWords([]);
+                    setSelectedSetIds([]);
                 }
                 onCharacterCreated();
             } else {
@@ -220,6 +253,26 @@ export default function CharacterForm({
                         placeholder="Ej: Mickey Mouse"
                         required
                     />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Sets</label>
+                    <div className="flex flex-wrap gap-2">
+                        {availableSets.map(set => (
+                            <button
+                                type="button"
+                                key={set.id}
+                                onClick={() => toggleSet(set.id)}
+                                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors border ${selectedSetIds.includes(set.id)
+                                    ? "bg-purple-100 text-purple-700 border-purple-200"
+                                    : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                                    }`}
+                            >
+                                {set.name}
+                            </button>
+                        ))}
+                        {availableSets.length === 0 && <span className="text-xs text-gray-400 italic">No hay sets creados</span>}
+                    </div>
                 </div>
 
                 <div>

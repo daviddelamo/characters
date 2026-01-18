@@ -13,6 +13,7 @@ interface Character {
     name: string;
     imageUrl: string;
     forbiddenWords: ForbiddenWord[];
+    sets: { set: { id: string; name: string } }[];
 }
 
 export default function CharacterList({
@@ -90,10 +91,17 @@ export default function CharacterList({
                         </div>
                         <div className="p-4">
                             <h3 className="text-xl font-bold text-gray-800 mb-2">{char.name}</h3>
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-2 mb-2">
                                 {char.forbiddenWords.map((fw) => (
                                     <span key={fw.id} className="text-xs bg-purple-50 text-purple-600 px-2 py-1 rounded-md border border-purple-100">
                                         {fw.word}
+                                    </span>
+                                ))}
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                {char.sets?.map(({ set }) => (
+                                    <span key={set.id} className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-md border border-blue-100">
+                                        {set.name}
                                     </span>
                                 ))}
                             </div>

@@ -15,6 +15,13 @@
       "when": 1768599176043,
       "tag": "0001_dapper_wong",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1768726424739,
+      "tag": "0002_demonic_diamondback",
+      "breakpoints": true
     }
   ]
 }
